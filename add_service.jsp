@@ -1,5 +1,13 @@
 <%@ page import="java.sql.*" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Add Service</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
 <%
 String name = request.getParameter("name");
 String description = request.getParameter("description");
@@ -26,3 +34,5 @@ try {
     if(con != null) con.close();
 }
 %>
+</body>
+</html>
