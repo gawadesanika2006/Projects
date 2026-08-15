@@ -1,0 +1,31 @@
+package com;
+import java.io.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+import java.sql.*;
+
+@WebServlet("/register")
+public class RegisterServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        String pass = req.getParameter("password");
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users(name,email,password) VALUES(?,?,?)");
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, pass);
+            
+            int i = ps.executeUpdate();
+            if(i > 0){
+                res.sendRedirect("login.jsp?msg=success");
+            } else {
+                res.getWriter().println("Registration Failed");
+            }
+        } catch(Exception e){ 
+            e.printStackTrace(); 
+        }
+    }
+}
