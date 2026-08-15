@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Feedback</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<h2>Feedback</h2>
-<form action="feedback" method="post">
-  <input type="text" name="name" placeholder="Name" required><br><br>
-  <textarea name="message" placeholder="Message" required></textarea><br><br>
+<h2>Submit Feedback</h2>
+<form action="FeedbackServlet" method="post">
+  Name: <input type="text" name="user_name" required><br>
+  Message: <textarea name="message" required></textarea><br>
   <button type="submit">Submit</button>
 </form>
 </body>
