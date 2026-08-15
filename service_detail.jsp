@@ -1,45 +1,38 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-int id = Integer.parseInt(request.getParameter("id"));
-Connection con = null;
-PreparedStatement ps = null;
-ResultSet rs = null;
-String name = "";
-String description = "";
-
-try {
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nearbyme", "root", "");
-    
-    ps = con.prepareStatement("SELECT name, description FROM services WHERE id=?");
-    ps.setInt(1, id);
-    rs = ps.executeQuery();
-    
-    if(rs.next()){
-        name = rs.getString("name");
-        description = rs.getString("description");
-    }
-%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Service Details</title>
+    <title>Service Detail</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<h2><%= name %></h2>
-<p><%= description %></p>
-<br>
-<a href="javascript:history.back()">⬅ Back</a>
-</body>
-</html>
 <%
-} catch(Exception e){
-    e.printStackTrace();
-} finally {
-    if(rs != null) rs.close();
-    if(ps != null) ps.close();
-    if(con != null) con.close();
+int id = Integer.parseInt(request.getParameter("id"));
+try {
+  Class.forName("com.mysql.cj.jdbc.Driver");
+  Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/nearbyme","root","");
+  PreparedStatement ps = con.prepareStatement("SELECT * FROM services WHERE id=?");
+  ps.setInt(1, id);
+  ResultSet rs = ps.executeQuery();
+  if(rs.next()){
+%>
+  <h2><%= rs.getString("name") %></h2>
+  <p>Category: <%= rs.getString("category") %></p>
+  <p>Description: <%= rs.getString("description") %></p>
+<%
+  }
+} catch(Exception e) { 
+  e.printStackTrace(); 
 }
 %>
+
+<h3>Feedback</h3>
+<form action="FeedbackServlet" method="post">
+  Name: <input type="text" name="user_name" required><br>
+  Message: <textarea name="message" required></textarea><br>
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>
